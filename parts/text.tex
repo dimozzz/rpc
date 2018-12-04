@@ -1,54 +1,51 @@
-\section{Section}
+Let $A, B \subseteq \{0, 1\}^{n \times b}$ be sets that correspond to inputs of Alice and Bob.
 
-\begin{theorem}
-    \label{th:eq_oracle}
-    There exsists a function $f$ such that $\D^{\EQ}(f) \ge \tilde{\Omega}(\R(f))$.
-\end{theorem}
+Let $U_{A, r} \subseteq \binom{n}{r} \times \{0, 1\}^r$ be a set of all projections of set $A$ on some
+$r$ coordinates. By analogy we can define $V_{B, r}$.
 
-\begin{theorem}
-    For each constant $a > 0$ there is a function $f$ such that $\D^{\R[\log n^a]}(f) \ge
-    \tilde{\Omega}(\R^2(f))$.
-\end{theorem}
+\begin{definition}
+\label{def:graphs}
+    Let $r \le n$ be an integer, $C = \{0, 1\}^{n \times b}$, $f_A: A \to \{0, 1\}^{n \times b}$ and
+    $f_B: B \to \{0, 1\}^{n \times b}$. A weighted underected graph $(U_{A, r}, C)$ contain edge $(u, c)$
+    with weight $w$ iff $|{a \in A \mid a \sim u, f_A(a) = c}| = w$. By analogy we can define
+    $(C, V_{B, r})$. 
+\end{definition}
 
-Our gadget: $g \coloneqq \IP_{\log n}$.
+\section{Lower bound}
 
-To prove these theorems we show the following chain of inequatilies:
-\begin{itemize}
-    \item $\D^{\EQ}(f \circ g) \ge \Omega(\D_{dt}(f))$ where $f$ is an arbitrary function;
-    \item $\D_{dt}(f) \ge \Omega(\R_{dt}^2(f))$ for some concrete function $f$;
-    \item $\R(f \circ g) \le \tilde{O}(\R_{dt}(f))$ where $f$ is an arbitrary function.
-\end{itemize}
+In this section we will define Delayer strategy that yields lower bound.
 
+\begin{algorithm}
+    Input $A, B \subseteq \{0, 1\}^{n \times b}$, $f_A: A \to \{0, 1\}^{n \times b}$ and $f_B: B \to
+    \{0, 1\}^{n \times b}$. $(U_{A, r}, C)$ and $(C, V_{B, r})$ be graphs from definition
+    \ref{def:graphs}.
 
-
-Let start with the last inequality.
-
-\begin{lemma}
-    \label{lm:random_dt}
-    Let $f:\{0, 1\}^n \to \{0, 1\}$ be an arbitrary function. $\R(f \circ g) \le \tilde{O}(\R_{dt}(f))$.
-\end{lemma}
-
-\begin{proof}
-    TODO!!!
-\end{proof}
-
-\begin{lemma}[\ref{!!!}]
-    \label{lm:dt_rt_sep}
-    There exists a function such that $\D_{dt}(f) \ge \Omega(\R_{dt}^2(f))$.
-\end{lemma}
-
-
-The following Lemma we will prove in section \ref{!!!}
-
-\begin{lemma}
-    \label{lm:eq_simulation}
-    Let $f:\{0, 1\}^n \to \{0, 1\}$ be an arbitrary function. $\D^{\EQ}(f \circ g) \ge \Omega(\D_{dt}(f))$.
-\end{lemma}
-
-
-
-\begin{proof}[of Theorem \ref{th:eq_oracle}]
-    Consider a function $f$ from Lemma \ref{lm:dt_rt_sep}. $\R(f \circ g) \le \tilde{O}(\R_{dt}(f))$ by
-    Lemma \ref{lm:random_dt} hence $\R(f \circ g) \le \tilde{O}(\D^2_{dt}(f))$ and $\R(f \circ g) \le
-    \tilde{O}((\D^{\EQ}(f \circ g))^2)$ by Lemma \ref{lm:eq_simulation}.
-\end{proof}
+    \begin{enumerate}
+        \item Until ????!!!!
+        \item $Purify(A, B, r)$.
+        \item If there is a vertex $u \in U_{A, r}$ and edge $(u, c)$ such that $deg(u) \le 2 * w(u, c)$
+            and $deg(v) \le 2 * w(c, v)$, where $v$ is a reflection of $u$ then:
+            \begin{enumerate}
+                \item Delayer answer is one.
+                \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) = c\}$.
+                \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) = c\}$.
+                \item $r \coloneqq \frac{r}{2}$.
+                \item Goto step 1.
+            \end{enumerate}
+        \item If there is a vertex $u \in U_{A, r}$ and edge $(u, c)$ such that $deg(u) \le 2 * w(u, c)$
+            then:
+            \begin{enumerate}
+                \item Delayer answer is zero.
+                \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) = c\}$.
+                \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) \neq c\}$.
+                \item $r \coloneqq \frac{r}{2}$.
+                \item Goto step 1.
+            \end{enumerate}
+        \item Delayer answer is zero.
+        \item Choose a partition of $C$ into two parts $C'$ and $C''$ such that avegare degree in induced
+            subgraphs $(U_{A, r}, C')$ and $(V_{B, r}, C'')$ be at least $0.1 \cdot d_{A, r}^{avg}$.
+        \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) \in C'\}$.
+        \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) \in C''\}$.
+        \item $r \coloneqq \frac{r}{2}$.
+    \end{enumerate}
+\end{algorithm}
