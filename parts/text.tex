@@ -1,51 +1,43 @@
-Let $A, B \subseteq \{0, 1\}^{n \times b}$ be sets that correspond to inputs of Alice and Bob.
-
-Let $U_{A, r} \subseteq \binom{n}{r} \times \{0, 1\}^r$ be a set of all projections of set $A$ on some
-$r$ coordinates. By analogy we can define $V_{B, r}$.
-
-\begin{definition}
-\label{def:graphs}
-    Let $r \le n$ be an integer, $C = \{0, 1\}^{n \times b}$, $f_A: A \to \{0, 1\}^{n \times b}$ and
-    $f_B: B \to \{0, 1\}^{n \times b}$. A weighted underected graph $(U_{A, r}, C)$ contain edge $(u, c)$
-    with weight $w$ iff $|{a \in A \mid a \sim u, f_A(a) = c}| = w$. By analogy we can define
-    $(C, V_{B, r})$. 
-\end{definition}
-
 \section{Lower bound}
 
 In this section we will define Delayer strategy that yields lower bound.
 
 \begin{algorithm}
-    Input $A, B \subseteq \{0, 1\}^{n \times b}$, $f_A: A \to \{0, 1\}^{n \times b}$ and $f_B: B \to
-    \{0, 1\}^{n \times b}$. $(U_{A, r}, C)$ and $(C, V_{B, r})$ be graphs from definition
-    \ref{def:graphs}.
+    Input $R \subseteq \{0, 1\}^n \times \{0, 1\}^n$, $A:\{0, 1\}^n \to \{0, 1\}$ and $B:\{0, 1\}^n \to
+    \{0, 1\}$.
+
+    Let $\sigma(R) = 2^{\gamma n}$, $\mu(R) = c n$ and $a = \sharp 1_R$.
 
     \begin{enumerate}
-        \item Until ????!!!!
-        \item $Purify(A, B, r)$.
-        \item If there is a vertex $u \in U_{A, r}$ and edge $(u, c)$ such that $deg(u) \le 2 * w(u, c)$
-            and $deg(v) \le 2 * w(c, v)$, where $v$ is a reflection of $u$ then:
+        \item Until $\sigma(R) > ????$.
+        \item If there is a $1$-rectangle $R_h = \{(x, y) \mid A(x) = B(y) = h\}$ such that: $\mu(R') \ge
+            \frac{c}{8} n$ and $\sigma(R') \ge 2^{(\gamma / 2) n}$, then:
             \begin{enumerate}
-                \item Delayer answer is one.
-                \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) = c\}$.
-                \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) = c\}$.
-                \item $r \coloneqq \frac{r}{2}$.
+                \item $R \coloneqq R'$.
                 \item Goto step 1.
             \end{enumerate}
-        \item If there is a vertex $u \in U_{A, r}$ and edge $(u, c)$ such that $deg(u) \le 2 * w(u, c)$
-            then:
-            \begin{enumerate}
-                \item Delayer answer is zero.
-                \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) = c\}$.
-                \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) \neq c\}$.
-                \item $r \coloneqq \frac{r}{2}$.
-                \item Goto step 1.
-            \end{enumerate}
-        \item Delayer answer is zero.
-        \item Choose a partition of $C$ into two parts $C'$ and $C''$ such that avegare degree in induced
-            subgraphs $(U_{A, r}, C')$ and $(V_{B, r}, C'')$ be at least $0.1 \cdot d_{A, r}^{avg}$.
-        \item $A \coloneqq \{a \subseteq A \mid a \sim u, f_A(a) \in C'\}$.
-        \item $B \coloneqq \{b \subseteq B \mid b \sim v, f_B(b) \in C''\}$.
-        \item $r \coloneqq \frac{r}{2}$.
+            
+        \item Pick a $0$-rectangle $R'$ such that $\sharp 1_{R'} \ge \frac{a}{8}$ and $\sigma(R') \ge
+            \frac{R}{4}$.
+        \item $R \coloneqq R'$.
     \end{enumerate}
 \end{algorithm}
+
+\begin{lemma}
+    Let $R \subseteq A \times B$ be a rectangle then $\sharp 1_R \le n \sigma(R)$.
+\end{lemma}
+
+\begin{proof}
+    Let $R = X \times Y$, wlog $|X| \le \sigma(R) \le |Y|$. For any $x \in X$ there are at most $n$
+    neighbours in the boolean cube.
+\end{proof}
+
+\begin{lemma}
+    Let $R_i$ be a collection of $1$-rectangles, $S = \bigcup R_i$ and $\sharp 1_{S} \ge
+    \frac{a}{2}$. There is an $i_0$ such that $\sigma(R_{i_0}) \ge 2^{(\gamma / 2) n}$ and $\mu(R') \ge
+    \frac{c}{8} n$.
+\end{lemma}
+
+\begin{proof}
+    $\sharp 1_{S} = \sum \sharp 1_{R_i} = $
+\end{proof}
