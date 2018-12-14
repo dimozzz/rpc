@@ -6,25 +6,23 @@ In this section we will define Delayer strategy that yields lower bound.
     Input $R \subseteq \{0, 1\}^n \times \{0, 1\}^n$, $A:\{0, 1\}^n \to \{0, 1\}$ and $B:\{0, 1\}^n \to
     \{0, 1\}$.
 
-    Let $\sigma(R) = 2^{\gamma n}$, $\mu(R) = c n$ and $a = \sharp 1_R$.
+    Let $\mu(R) = c n$ and $a = \sharp 1_R$.
 
     \begin{enumerate}
-        \item Until $\sigma(R) > ????$.
-        \item If there is a $1$-rectangle $R_h = \{(x, y) \mid A(x) = B(y) = h\}$ such that: $\mu(R') \ge
-            \frac{c}{8} n$ and $\sigma(R') \ge 2^{(\gamma / 2) n}$, then:
+        \item Until $\sigma(R) > \sqrt{n}$.
+        \item If there is a $1$-rectangle such that $\mu(R') \ge \frac{c}{8} n$ then:
             \begin{enumerate}
                 \item $R \coloneqq R'$.
                 \item Goto step 1.
             \end{enumerate}
             
-        \item Pick a $0$-rectangle $R'$ such that $\sharp 1_{R'} \ge \frac{a}{8}$ and $\sigma(R') \ge
-            \frac{R}{4}$.
+        \item Pick a $0$-rectangle $R'$ such that $\mu(R') \ge \frac{c}{8} n$.
         \item $R \coloneqq R'$.
     \end{enumerate}
 \end{algorithm}
 
 \begin{lemma}
-    Let $R \subseteq A \times B$ be a rectangle then $\sharp 1_R \le n \sigma(R)$.
+    Let $R \subseteq A \times B$ be a rectangle then $\sharp 1_R \le n \min(|R_x|, |R_y|)$.
 \end{lemma}
 
 \begin{proof}
@@ -33,11 +31,58 @@ In this section we will define Delayer strategy that yields lower bound.
 \end{proof}
 
 \begin{lemma}
-    Let $R_i$ be a collection of $1$-rectangles, $S = \bigcup R_i$ and $\sharp 1_{S} \ge
-    \frac{a}{2}$. There is an $i_0$ such that $\sigma(R_{i_0}) \ge 2^{(\gamma / 2) n}$ and $\mu(R') \ge
-    \frac{c}{8} n$.
+    \label{lm:ones-in-small}
+    Let $R$ be a rectangle and $\sigma(R) \le 2^{\varepsilon n}$ then $\sharp 1_R \le 2 \varepsilon \sigma(R)$.
 \end{lemma}
 
 \begin{proof}
-    $\sharp 1_{S} = \sum \sharp 1_{R_i} = $
+    See stackexchange.
+\end{proof}
+
+
+\begin{lemma}
+    Let $R_i$ be a collection of $1$-rectangles, $S = \bigcup R_i$ and $\sharp 1_{S} \ge
+    \frac{a}{2}$. There is an $i_0$ such that $\mu(R') \ge \frac{c}{2} n$.
+\end{lemma}
+
+\begin{proof}
+    $\frac{c}{2} n \sigma(R) = \frac{a}{2} \le \sharp 1_{S} = \sum \sharp 1_{R_i} = \sum \mu(R_i)
+    \sigma(R_i) \le \max(\mu(R_i)) \sum \sigma(R_i) \le \max(\mu(R_i)) \sigma(R)$. Hence $\max(\mu(R_i))
+    \ge \frac{c}{2}$.
+\end{proof}
+
+\begin{lemma}
+    Let $R_i$ be a collection of $1$-rectangles, $S = \bigcup R_i$ and $\sharp 1_{S} \ge
+    \frac{a}{2}$. There is an $i_0$ such that $\mu(R') \ge \frac{c}{2} n$.
+\end{lemma}
+
+\begin{proof}
+    $\frac{c}{2} n \sigma(R) = \frac{a}{2} \le \sharp 1_{S} = \sum \sharp 1_{R_i} = \sum \mu(R_i)
+    \sigma(R_i) \le \max(\mu(R_i)) \sum \sigma(R_i) \le \max(\mu(R_i)) \sigma(R)$. Hence $\max(\mu(R_i))
+    \ge \frac{c}{2}$.
+\end{proof}
+
+
+\begin{lemma}
+    Let $R_i$ be a collection of $1$-rectangles, $S = \bigcup R_i$ and $\sharp 1_{S} <
+    \frac{a}{2}$. There is a $0$-rectangle such that $\mu(R') \ge \frac{c}{8} n$.
+\end{lemma}
+
+\begin{proof}
+    There is $0$-rectangle $R'$ that covers at least $\frac{1}{4}$ fraction of ones in zero part of the
+    matrix. $\mu(R') = \frac{\sharp 1_{R'}}{\sigma(R')} \ge \frac{\sharp 1_{R}}{2 \sigma(R')} \ge
+    \frac{\sharp 1_{R}}{2 \sigma(R)} = \frac{c}{2}$.
+\end{proof}
+
+
+\begin{lemma}
+    If $\mu(R) \ge \sqrt{n}$ then $R$ is not a monochromatic.
+\end{lemma}
+
+\begin{proof}
+    By Lemma \ref{lm:ones-in-small} $\sigma(R) \ge 2^{\frac{\sqrt{n}}{10}}$. $R$ can be $1$-monochromatic
+    if $\min(|R_x|, |R_y|) \le n$, but in this case $\sharp 1_{R} \le n^2$ hence $\mu(R) \le
+    \frac{n^2}{2^{\frac{\sqrt{n}}{10}}} \ll \sqrt{n}$.
+
+    $R$ is not $0$-monochromatic since $\mu(R) > 0$.
 \end{proof}
